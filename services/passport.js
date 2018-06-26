@@ -25,19 +25,18 @@ passport.use(
         callbackURL: '/auth/google/callback',
         proxy: true //L50
 }, 
-    (accessToken, refreshToken, profile, done) => {
-        User.findOne({ googleId: profile.id })
-        .then((existingUser) => {
-            if(existingUser){
+//L58
+    async (accessToken, refreshToken, profile, done) => {
+       const existingUser = await User.findOne({ googleId: profile.id })
+       
+       if(existingUser){
                 //already record with profile id
-                done(null, existingUser);
-            } else{
+         return done(null, existingUser);
+        }
                 //dont have record, make new
-                new User({ googleId: profile.id }).save() //create new model instance
-                    .then(user => done(null, user));
-            }
-        })
-
-        
-    })
+        const user = await new User({ googleId: profile.id }).save(); //create new model instance
+        done(null, user);        
+      
+    }
+  )
 );
