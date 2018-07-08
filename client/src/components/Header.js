@@ -2,12 +2,13 @@ import React, { Component } from 'react';
 //L80 - let Header know user logged in
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import Payments from './Payments';
 
 class Header extends Component {
 
     //helper method
     renderContent() {
-        switch (this.props.auth) {
+        switch (this.props.auth) { //comes from authReducers
             case null: 
                 return;
 
@@ -16,8 +17,15 @@ class Header extends Component {
          
 
             default: 
-                return <li><a href="/api/logout">Logout</a> </li>; //send back to root route
-             
+                return [
+                    <li key="1"><Payments /></li>,
+                    <li key="3" style={{ margin: '0 10px' }}>
+
+                    Credits: {this.props.auth.credits}
+                    
+                    </li>,
+                    <li key="2"><a href="/api/logout">Logout</a> </li> //send back to root route
+                ];
         }
     }
 

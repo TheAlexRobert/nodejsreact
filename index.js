@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cookieSession = require('cookie-session');
 const passport = require('passport');
+const bodyParser = require('body-parser');
 const keys = require('./config/keys');
 require('./models/User');
 require('./services/passport');
@@ -9,8 +10,10 @@ mongoose.connect(keys.mongoURI);
 
 const app = express();
 
+//L100 - middleware parse body
+app.use(bodyParser.json());
 
-app.use(
+app.use( //MIDDLEWARE
     cookieSession({
         maxAge: 30 * 24 * 60 * 60 * 1000, //30 days
         keys: [keys.cookieKey] //encrypts cookies
@@ -23,6 +26,20 @@ app.use(passport.session());
 
 
 require('./routes/authRoutes')(app);
+//L98
+require('./routes/billingRoutes')(app);
+
+//L109 - heroku
+if (process.env.NODE_ENV === 'production'){
+   //EXPRESS serve production assets, like main.js/css
+   app.use(express.static('client/build'));
+
+   //EXPRESS if doesnt recognize route - catch all case
+   const path = require('path');
+   app.get('*', (req, res) => {
+       res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'))
+   });
+}
 
 
 const PORT = process.env.PORT || 5000;

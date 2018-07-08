@@ -6,7 +6,7 @@ export default function(state = null, action){
     //L80 - decides whether logged in
     switch (action.type) {
         case FETCH_USER:
-            return action.playload || false; //action model - L80
+            return action.payload || false; //action model - L80
         default:
             return state;
     }
