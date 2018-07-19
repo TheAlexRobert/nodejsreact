@@ -6,6 +6,7 @@ const bodyParser = require('body-parser');
 const keys = require('./config/keys');
 require('./models/User');
 require('./services/passport');
+require('./models/Survey');
 mongoose.connect(keys.mongoURI);
 
 const app = express();
@@ -24,10 +25,12 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 
-
+//ROUTES
 require('./routes/authRoutes')(app);
 //L98
 require('./routes/billingRoutes')(app);
+//L120
+require('./routes/surveyRoutes')(app);
 
 //L109 - heroku
 if (process.env.NODE_ENV === 'production'){

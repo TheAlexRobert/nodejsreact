@@ -7,8 +7,9 @@ import * as actions from '../actions'; //take all action creators and define to 
 import Header from './Header';
 //L85
 import Landing from './Landing';
-const Dashboard = () => <h2>Dashboard</h2>
-const SurveyNew = () => <h2>SurveyNew</h2>
+import Dashboard from './Dashboard';
+//144
+import SurveyNew from './surveys/SurveyNew'
 
 
 //L77 - refactor to class
@@ -25,7 +26,7 @@ class App extends Component {
             <div className="container">
                 
                 <BrowserRouter> 
-                    <div>
+                    <div className="container">
                         <Header />
                         <Route exact path="/" component={Landing}/>
                         <Route exact path="/surveys" component={Dashboard}/>

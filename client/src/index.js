@@ -7,6 +7,8 @@ import reduxThunk from 'redux-thunk';
 
 import App from './components/App';
 import reducers from './reducers';
+import axios from 'axios';
+window.axios = axios;
 
 //Error: Actions must be plain objects. Use custom middleware for async actions.
 //did not put reduxThunk in applyMiddleware
